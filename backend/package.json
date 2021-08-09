@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index"
+    "start": "npm run serve",
+    "serve": "node index",
+    "dev": "nodemon index"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +17,7 @@
     "express": "^4.17.1"
   },
   "devDependencies": {
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.12"
   }
 }
