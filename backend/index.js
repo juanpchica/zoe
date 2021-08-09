@@ -1,7 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const morgan = require("morgan");
-
 require("dotenv").config();
 
 const app = express();
@@ -10,7 +8,6 @@ const PORT = process.env.PORT;
 const data = require("./data/db.json");
 
 app.use(express.json());
-app.use(morgan("dev"));
 app.use(
   cors({
     credentials: true,
@@ -20,7 +17,7 @@ app.use(
 );
 
 app.get("/agents/:income", (req, res) => {
-  const income = req.params.income.split(":")[1];
+  const { income } = req.params;
   const newAgents = data.filter(
     (agent) =>
       agent.income <= parseInt(income) + 10000 &&
