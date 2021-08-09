@@ -18,14 +18,15 @@ app.use(
     optionsSuccessStatus: 200,
   })
 );
-app.use(express.static("public"));
 
-app.get("/agents/", (req, res) => {
-  console.log("work");
-  if (req.params.income) {
-  } else {
-    return res.status(200).json({ agents: data });
-  }
+app.get("/agents/:income", (req, res) => {
+  const income = req.params.income.split(":")[1];
+  const newAgents = data.filter(
+    (agent) =>
+      agent.income <= parseInt(income) + 10000 &&
+      agent.income >= parseInt(income) - 10000
+  );
+  return res.status(200).json({ agents: newAgents });
 });
 
 app.listen(PORT, async () => {
