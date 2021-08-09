@@ -1,26 +1,21 @@
-import "./App.css";
-
-import { createTheme, MuiThemeProvider } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-
-import themeFile from "./util/theme";
-import SearchAgent from "./components/SearchAgent";
-import Agents from "./components/Agents";
-
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-const theme = createTheme(themeFile);
+import "./App.scss";
+
+//My Components
+import Home from "./pages/Home/Home";
+import Agents from "./pages/Agents/Agents";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
-    <MuiThemeProvider theme={theme}>
-      <Router>
-        <Container>
-          <Route path='/agents/:amount' component={Agents} />
-          <Route path='/' exact component={SearchAgent} />
-        </Container>
-      </Router>
-    </MuiThemeProvider>
+    <Router>
+      <Navbar />
+      <Switch>
+        <Route path='/' exact component={Home} />
+        <Route path='/agents' component={Agents} />
+      </Switch>
+    </Router>
   );
 }
 

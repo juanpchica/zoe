@@ -6,7 +6,7 @@ const Agents = () => {
   const [agents, setAgents] = useState([]);
   const [agentsFilter, setAgentsFilter] = useState([]);
   const [agentsStorage, setAgentsStorage] = useState([]);
-  const API_URL = "http://localhost:8000/agents";
+  const API_URL = "https://zoe-api.herokuapp.com/agents/80000";
   const { amount } = useParams();
 
   const [actualPage, setActualPage] = useState(0);
@@ -15,7 +15,7 @@ const Agents = () => {
   const fetchAgents = async () => {
     const res = await fetch(API_URL);
     const data = await res.json();
-
+    console.log(data);
     setAgents(data);
 
     filterAgents(data);

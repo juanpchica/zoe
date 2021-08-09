@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { useHistory, Link } from "react-router-dom";
 
-const SearchAgent = () => {
+const Home = () => {
   const [amount, setAmount] = useState("");
 
   let history = useHistory();
@@ -32,4 +32,4 @@ const SearchAgent = () => {
   );
 };
 
-export default SearchAgent;
+export default Home;
