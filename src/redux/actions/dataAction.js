@@ -5,6 +5,7 @@ import {
   SET_INCOME,
   DELETE_AGENT,
   FILTER_AGENTS,
+  ORDER_AGENTS,
 } from "../types";
 
 //Fetching Agents
@@ -40,4 +41,9 @@ export const deleteAgent = (agent) => (dispatch) => {
 //Filter agents by number page
 export const filterAgents = (numberPage) => (dispatch) => {
   dispatch({ type: FILTER_AGENTS, payload: numberPage });
+};
+
+//Order agents by key:name
+export const orderAgents = (key) => (dispatch) => {
+  dispatch({ type: ORDER_AGENTS, payload: key });
 };

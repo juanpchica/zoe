@@ -8,6 +8,7 @@ import {
   getAgents,
   deleteAgent,
   filterAgents,
+  orderAgents,
 } from "../../redux/actions/dataAction";
 
 const Agents = ({
@@ -15,8 +16,10 @@ const Agents = ({
   getAgents,
   deleteAgent,
   filterAgents,
+  orderAgents,
 }) => {
   const [pageNumber, setPageNumber] = useState(1);
+  const [orderType, setOrderType] = useState("id");
 
   // When click in show/Hide change page number
   const changePageNumber = (number) => {
@@ -28,9 +31,11 @@ const Agents = ({
     getAgents(income);
   }, []);
 
+  //Each time the filter or order changed, filter and order are set
   useEffect(() => {
     filterAgents(pageNumber);
-  }, [pageNumber]);
+    orderAgents(orderType);
+  }, [pageNumber, orderType]);
 
   // Validate if income does exist
   if (!income) {
@@ -39,6 +44,17 @@ const Agents = ({
 
   return (
     <div>
+      <select
+        onChange={(e) => {
+          setOrderType(e.target.value);
+        }}
+      >
+        <option value='id'>Select...</option>
+        <option value='name'>Name(A-Z)</option>
+        <option value='id'>ID</option>
+        <option value='income-desc'>Income:High first</option>
+        <option value='income-asc'>Low first</option>
+      </select>
       <ul>
         {newAgents &&
           newAgents.map((agent) => {
@@ -82,6 +98,7 @@ Agents.propTypes = {
   getAgents: PropTypes.func.isRequired,
   deleteAgent: PropTypes.func.isRequired,
   filterAgents: PropTypes.func.isRequired,
+  orderAgents: PropTypes.func.isRequired,
   data: PropTypes.object.isRequired,
 };
 
@@ -97,6 +114,7 @@ const mapPropsToActions = {
   getAgents,
   deleteAgent,
   filterAgents,
+  orderAgents,
 };
 
 export default connect(mapPropsToState, mapPropsToActions)(Agents);

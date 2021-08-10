@@ -4,6 +4,7 @@ import {
   DELETE_AGENT,
   SET_INCOME,
   FILTER_AGENTS,
+  ORDER_AGENTS,
 } from "../types";
 
 const initialState = {
@@ -36,6 +37,31 @@ const reducer = (state = initialState, action) => {
         newAgents,
         loadingAgents: false,
       };
+    case ORDER_AGENTS:
+      let key = action.payload;
+      const agentsOrdered = state.newAgents.sort((a, b) => {
+        //Order by name asc
+        if (key === "name") {
+          let nameA = a[key].toLowerCase();
+          let nameB = b[key].toLowerCase();
+
+          if (nameA < nameB) return -1;
+          if (nameA > nameB) return 1;
+        } else if (key === "id") {
+          //Order by ID asc
+          return a[key] - b[key];
+        } else if (key === "income-asc") {
+          //Order by Income asc
+          return a.income - b.income;
+        } else {
+          //Order by Income desc
+          return b.income - a.income;
+        }
+      });
+      return {
+        ...state,
+        newAgents: agentsOrdered,
+      };
     case LOADING_AGENTS:
       return {
         ...state,
@@ -44,7 +70,7 @@ const reducer = (state = initialState, action) => {
     case DELETE_AGENT:
       //Set in storage
       state.agentsHidden = [...state.agentsHidden, action.payload];
-      localStorage.setItem("agentsHidden", state.agentsHidden);
+      localStorage.setItem("agentsHidden", JSON.stringify(state.agentsHidden));
 
       //Remove from UI
       const index = state.newAgents.findIndex(
