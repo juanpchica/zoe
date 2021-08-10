@@ -58,10 +58,10 @@ const Agents = ({
         </div>
         <div className='agents-content'>
           {loadingAgents ? (
-            <h2>Loading...</h2>
+            <h2>Loading UI...</h2>
           ) : (
             <div className='agents-view'>
-              {newAgents.length > 0 ? (
+              {newAgents && newAgents.length > 0 ? (
                 <Fragment>
                   <div className='input-group-container'>
                     <label htmlFor='order'>Order agents by</label>
@@ -86,27 +86,6 @@ const Agents = ({
                         return <Agent key={agent.id} agent={agent} />;
                       })}
                   </div>
-                  <div className='action-buttons'>
-                    {newAgents.length < agents.length && (
-                      <button
-                        onClick={() => {
-                          changePageNumber(pageNumber + 1);
-                        }}
-                      >
-                        Load more...
-                      </button>
-                    )}
-
-                    {newAgents.length >= 3 && (
-                      <button
-                        onClick={() => {
-                          changePageNumber(pageNumber - 1);
-                        }}
-                      >
-                        Load Less...
-                      </button>
-                    )}
-                  </div>
                 </Fragment>
               ) : (
                 <div className={"alert alert-danger"}>
@@ -114,6 +93,28 @@ const Agents = ({
                   different income value.
                 </div>
               )}
+
+              <div className='action-buttons'>
+                {newAgents && newAgents.length < agents.length && (
+                  <button
+                    onClick={() => {
+                      changePageNumber(pageNumber + 1);
+                    }}
+                  >
+                    Load more...
+                  </button>
+                )}
+
+                {newAgents && newAgents.length >= 3 && (
+                  <button
+                    onClick={() => {
+                      changePageNumber(pageNumber - 1);
+                    }}
+                  >
+                    Load Less...
+                  </button>
+                )}
+              </div>
             </div>
           )}
         </div>
