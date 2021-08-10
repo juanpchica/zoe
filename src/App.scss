@@ -3,3 +3,30 @@ body {
   padding: 0;
   font-size: 16px;
 }
+.site-container {
+  padding-top: 80px;
+  height: calc(100vh - 80px);
+}
+
+/* Header */
+header {
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+  background: #fafafa;
+  .navbar {
+    box-shadow: 0px 0px 15px #bdbbbb;
+    .navbar-container {
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      .navbar-brand {
+        a {
+          display: inline-block;
+          padding: 10px;
+          line-height: 0;
+        }
+      }
+    }
+  }
+}
