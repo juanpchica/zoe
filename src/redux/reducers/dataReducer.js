@@ -20,7 +20,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         agents: action.payload,
-        loading: false,
+        loadingAgents: false,
       };
     case LOADING_AGENTS:
       return {

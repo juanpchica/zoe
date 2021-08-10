@@ -1,25 +1,22 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import PropTypes from "prop-types";
 
-import { Link, useParams } from "react-router-dom";
+//Redux
+import { connect } from "react-redux";
+import { getAgents, deleteAgent } from "../../redux/actions/dataAction";
 
-const Agents = () => {
+const Agents = ({
+  data: { income, loadingAgents, agents: agentsState },
+  getAgents,
+}) => {
   const [agents, setAgents] = useState([]);
   const [agentsFilter, setAgentsFilter] = useState([]);
   const [agentsStorage, setAgentsStorage] = useState([]);
-  const API_URL = "https://zoe-api.herokuapp.com/agents/80000";
-  const { amount } = useParams();
 
   const [actualPage, setActualPage] = useState(0);
   const [numberPage, setNumberPage] = useState(1);
-
-  const fetchAgents = async () => {
-    const res = await fetch(API_URL);
-    const data = await res.json();
-    console.log(data);
-    setAgents(data);
-
-    filterAgents(data);
-  };
+  const amount = 0;
 
   const filterAgents = (agentsData) => {
     let newAgents = agentsData
@@ -33,7 +30,8 @@ const Agents = () => {
   };
 
   useEffect(() => {
-    fetchAgents();
+    getAgents(income);
+    filterAgents(agentsState);
   }, []);
 
   useEffect(() => {
@@ -82,4 +80,24 @@ const Agents = () => {
   );
 };
 
-export default Agents;
+// Validation PropTypes
+Agents.propTypes = {
+  getAgents: PropTypes.func.isRequired,
+  deleteAgent: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+};
+
+// Getting state from store
+const mapPropsToState = (state) => {
+  return {
+    data: state.data,
+  };
+};
+
+// Getting actions to dispatch
+const mapPropsToActions = {
+  getAgents,
+  deleteAgent,
+};
+
+export default connect(mapPropsToState, mapPropsToActions)(Agents);

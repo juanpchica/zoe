@@ -2,14 +2,14 @@ import axios from "axios";
 import { SET_AGENTS, LOADING_AGENTS, SET_INCOME, DELETE_AGENT } from "../types";
 
 //Fetching Agents
-export const getAgents = (income) => (dispatch) => {
+export const getAgents = (income) => {
   return (dispatch) => {
     dispatch({ type: LOADING_AGENTS });
 
     axios
-      .get("/agents/" + income)
+      .get("https://zoe-api.herokuapp.com/agents/" + income)
       .then((res) => {
-        dispatch({ type: SET_AGENTS, payload: res.data });
+        dispatch({ type: SET_AGENTS, payload: res.data.agents });
       })
       .catch((err) => {
         dispatch({
