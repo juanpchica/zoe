@@ -4,4 +4,21 @@
 }
 .home-form {
   padding: 15px 0;
+  .btn {
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .home-form {
+    max-width: 400px;
+    margin: 0 auto;
+    form {
+      overflow: hidden;
+    }
+    .btn {
+      width: auto;
+      float: right;
+    }
+  }
 }
