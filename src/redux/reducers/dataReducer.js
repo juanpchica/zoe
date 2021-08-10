@@ -35,7 +35,6 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         newAgents,
-        loadingAgents: false,
       };
     case ORDER_AGENTS:
       let key = action.payload;
@@ -61,6 +60,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         newAgents: agentsOrdered,
+        loadingAgents: false,
       };
     case LOADING_AGENTS:
       return {

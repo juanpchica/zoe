@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Redirect, useParams } from "react-router-dom";
+import React, { useEffect, useState, Fragment } from "react";
+import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
+
+//Helpers
+import { formatterCurrency } from "../../util/helpers";
 
 //Redux
 import { connect } from "react-redux";
@@ -11,10 +14,12 @@ import {
   orderAgents,
 } from "../../redux/actions/dataAction";
 
+//My Components
+import Agent from "../../components/Agent/Agent";
+
 const Agents = ({
   data: { income, loadingAgents, agents, newAgents },
   getAgents,
-  deleteAgent,
   filterAgents,
   orderAgents,
 }) => {
@@ -43,52 +48,76 @@ const Agents = ({
   }
 
   return (
-    <div>
-      <select
-        onChange={(e) => {
-          setOrderType(e.target.value);
-        }}
-      >
-        <option value='id'>Select...</option>
-        <option value='name'>Name(A-Z)</option>
-        <option value='id'>ID</option>
-        <option value='income-desc'>Income:High first</option>
-        <option value='income-asc'>Low first</option>
-      </select>
-      <ul>
-        {newAgents &&
-          newAgents.map((agent) => {
-            return (
-              <li
-                key={agent.id}
-                onClick={() => {
-                  deleteAgent(agent);
-                }}
-              >
-                {agent.name} - {agent.income}
-              </li>
-            );
-          })}
-      </ul>
-      {newAgents.length < agents.length && (
-        <button
-          onClick={() => {
-            changePageNumber(pageNumber + 1);
-          }}
-        >
-          Load more...
-        </button>
-      )}
+    <div className='page-content page-agents'>
+      <div className='page-agents-content'>
+        <div className='text-center agents-hero'>
+          <h2 className='title-page'>Your matches</h2>
+          <p>
+            Your income: <b>{formatterCurrency(income)}</b>
+          </p>
+        </div>
+        <div className='agents-content'>
+          {loadingAgents ? (
+            <h2>Loading...</h2>
+          ) : (
+            <div className='agents-view'>
+              {newAgents.length > 0 ? (
+                <Fragment>
+                  <div className='input-group-container'>
+                    <label htmlFor='order'>Order agents by</label>
+                    <div className='input-group'>
+                      <select
+                        onChange={(e) => {
+                          setOrderType(e.target.value);
+                        }}
+                        id='order'
+                      >
+                        <option value='id'>Select...</option>
+                        <option value='name'>Name(A-Z)</option>
+                        <option value='id'>ID</option>
+                        <option value='income-desc'>Income:High first</option>
+                        <option value='income-asc'>Low first</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className='list-agents'>
+                    {newAgents &&
+                      newAgents.map((agent) => {
+                        return <Agent key={agent.id} agent={agent} />;
+                      })}
+                  </div>
+                  <div className='action-buttons'>
+                    {newAgents.length < agents.length && (
+                      <button
+                        onClick={() => {
+                          changePageNumber(pageNumber + 1);
+                        }}
+                      >
+                        Load more...
+                      </button>
+                    )}
 
-      {newAgents.length >= 3 && (
-        <button
-          onClick={() => {
-            changePageNumber(pageNumber - 1);
-          }}
-        >
-          Load Less...
-        </button>
-      )}
+                    {newAgents.length >= 3 && (
+                      <button
+                        onClick={() => {
+                          changePageNumber(pageNumber - 1);
+                        }}
+                      >
+                        Load Less...
+                      </button>
+                    )}
+                  </div>
+                </Fragment>
+              ) : (
+                <div className={"alert alert-danger"}>
+                  No available Agents based on your income. Please try a
+                  different income value.
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
