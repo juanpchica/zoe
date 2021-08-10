@@ -1,6 +1,12 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import PropTypes from "prop-types";
 
-import { useHistory, Link } from "react-router-dom";
+//Redux
+import { connect } from "react-redux";
+import { setIncome } from "../../redux/actions/dataAction";
+
+//Styles
 import "./Home.scss";
 
 //Icons
@@ -11,16 +17,31 @@ import {
   faArrowRight,
 } from "@fortawesome/free-solid-svg-icons";
 
-const Home = () => {
-  const [amount, setAmount] = useState("");
+//My Components
+import Alert from "../../components/Alert";
 
+const Home = ({ setIncome: setIncomeState }) => {
   let history = useHistory();
 
-  const validateInput = () => {
-    if (amount.length !== 5) {
-      alert("Input must be 5 digits");
+  //Local state
+  const [income, setIncome] = useState("");
+  const [alert, setAlert] = useState({ show: false, msg: "", type: "" });
+
+  // Handle errors notifications
+  const showAlert = (show = false, msg = "", type = "") => {
+    setAlert({ show, msg, type });
+  };
+
+  // Validate if input lenght digits is correct and redirect
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (income.length !== 5) {
+      showAlert(true, "Input Value must be equal to 5 ", "danger");
     } else {
-      history.push(`/agents/${amount}`);
+      //Set income in state store
+      setIncomeState(income);
+
+      history.push(`/agents/`);
     }
   };
 
@@ -33,7 +54,8 @@ const Home = () => {
           <p>Fill the information below to get your matches.</p>
         </div>
         <div className='home-form'>
-          <form>
+          {alert.show && <Alert action={alert} removeAlert={showAlert} />}
+          <form onSubmit={handleSubmit}>
             <div className='input-group-container'>
               <label htmlFor='income'>Current income</label>
               <div className='input-group'>
@@ -43,21 +65,17 @@ const Home = () => {
                 <input
                   type='number'
                   onChange={(e) => {
-                    setAmount(e.target.value);
+                    setIncome(e.target.value);
                   }}
                   name='income'
-                  value={amount}
+                  value={income}
                   id='income'
                   className='form-control'
                 />
               </div>
             </div>
 
-            <button
-              type='button'
-              onClick={validateInput}
-              className='btn btn-primary'
-            >
+            <button type='submit' className='btn btn-primary'>
               Get matches
               <FontAwesomeIcon icon={faArrowRight} />
             </button>
@@ -68,4 +86,22 @@ const Home = () => {
   );
 };
 
-export default Home;
+// Validation PropTypes
+Home.propTypes = {
+  setIncome: PropTypes.func.isRequired,
+  income: PropTypes.number,
+};
+
+// Getting state from store
+const mapPropsToState = (state) => {
+  return {
+    income: state.income,
+  };
+};
+
+// Getting actions to dispatch
+const mapPropsToActions = {
+  setIncome,
+};
+
+export default connect(mapPropsToState, mapPropsToActions)(Home);
