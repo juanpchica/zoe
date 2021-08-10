@@ -9,8 +9,14 @@ body {
   background-color: #fff;
   font-family: "Roboto", sans-serif;
   color: #3f3e3a;
-  input:focus {
+  input:focus,
+  select:focus,
+  textarea:focus {
     outline: none !important;
+  }
+  a,
+  button {
+    transition: all 1s ease-in-out;
   }
 }
 
