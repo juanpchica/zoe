@@ -54,12 +54,14 @@ const Agents = ({
   // UseEffect Methods
   useEffect(() => {
     getAgents(income);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   //Each time the filter or order changed, filter and order are set
   useEffect(() => {
     filterAgents(pageNumber);
     orderAgents(orderType);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNumber, orderType]);
 
   // Validate if income does exist

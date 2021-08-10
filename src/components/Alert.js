@@ -7,6 +7,7 @@ const Alert = ({ action: { msg, type }, removeAlert }) => {
     }, 2000);
 
     return () => clearTimeout(timeout);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <div className={"alert alert-" + type}>{msg}</div>;
