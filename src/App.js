@@ -10,11 +10,17 @@ import Navbar from "./components/Navbar";
 function App() {
   return (
     <Router>
-      <Navbar />
-      <Switch>
-        <Route path='/' exact component={Home} />
-        <Route path='/agents' component={Agents} />
-      </Switch>
+      <main>
+        <header>
+          <Navbar />
+        </header>
+        <section className='site-container'>
+          <Switch>
+            <Route path='/' exact component={Home} />
+            <Route path='/agents' component={Agents} />
+          </Switch>
+        </section>
+      </main>
     </Router>
   );
 }
