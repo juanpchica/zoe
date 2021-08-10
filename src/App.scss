@@ -1,5 +1,6 @@
 /* Vars */
 $primaryColor: #5c7beb;
+$secondaryColor: #b4b4b4;
 
 /* Generic */
 body {
@@ -13,10 +14,6 @@ body {
   select:focus,
   textarea:focus {
     outline: none !important;
-  }
-  a,
-  button,.alert {
-    transition: all 1s ease-in-out;
   }
 }
 
@@ -94,6 +91,15 @@ body {
   color: #721c24;
   background-color: #f8d7da;
   border-color: #f5c6cb;
+}
+.no-bg {
+  background: none;
+}
+.color-secondary {
+  color: $secondaryColor;
+}
+.color-primary {
+  color: $primaryColor;
 }
 
 /* Header */

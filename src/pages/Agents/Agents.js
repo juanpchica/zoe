@@ -1,9 +1,13 @@
 import React, { useEffect, useState, Fragment } from "react";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
+import Select from "react-select";
 
 //Helpers
 import { formatterCurrency } from "../../util/helpers";
+
+//Styles
+import "./Agents.scss";
 
 //Redux
 import { connect } from "react-redux";
@@ -13,6 +17,10 @@ import {
   filterAgents,
   orderAgents,
 } from "../../redux/actions/dataAction";
+
+//Icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 //My Components
 import Agent from "../../components/Agent/Agent";
@@ -26,9 +34,21 @@ const Agents = ({
   const [pageNumber, setPageNumber] = useState(1);
   const [orderType, setOrderType] = useState("id");
 
+  const options = [
+    { value: "id", label: "Select..." },
+    { value: "name", label: "Name(A-Z)" },
+    { value: "id", label: "ID" },
+    { value: "income-desc", label: "Income: High first" },
+    { value: "income-asc", label: "Income: Low first" },
+  ];
+
   // When click in show/Hide change page number
   const changePageNumber = (number) => {
     setPageNumber(number);
+  };
+
+  const handleChange = (selectedOption) => {
+    setOrderType(selectedOption.value);
   };
 
   // UseEffect Methods
@@ -66,18 +86,11 @@ const Agents = ({
                   <div className='input-group-container'>
                     <label htmlFor='order'>Order agents by</label>
                     <div className='input-group'>
-                      <select
-                        onChange={(e) => {
-                          setOrderType(e.target.value);
-                        }}
-                        id='order'
-                      >
-                        <option value='id'>Select...</option>
-                        <option value='name'>Name(A-Z)</option>
-                        <option value='id'>ID</option>
-                        <option value='income-desc'>Income:High first</option>
-                        <option value='income-asc'>Low first</option>
-                      </select>
+                      <Select
+                        options={options}
+                        onChange={handleChange}
+                        className='select-agent'
+                      />
                     </div>
                   </div>
                   <div className='list-agents'>
@@ -90,28 +103,36 @@ const Agents = ({
               ) : (
                 <div className={"alert alert-danger"}>
                   No available Agents based on your income. Please try a
-                  different income value.
+                  different income value <Link to='/'>here</Link>
                 </div>
               )}
 
               <div className='action-buttons'>
-                {newAgents && newAgents.length < agents.length && (
-                  <button
-                    onClick={() => {
-                      changePageNumber(pageNumber + 1);
-                    }}
-                  >
-                    Load more...
-                  </button>
-                )}
-
                 {newAgents && newAgents.length >= 3 && (
                   <button
                     onClick={() => {
                       changePageNumber(pageNumber - 1);
                     }}
+                    className={
+                      newAgents.length === 3
+                        ? "btn no-bg color-secondary"
+                        : "btn no-bg color-primary"
+                    }
                   >
-                    Load Less...
+                    Show less
+                    <FontAwesomeIcon icon={faMinus} />
+                  </button>
+                )}
+
+                {newAgents && newAgents.length < agents.length && (
+                  <button
+                    onClick={() => {
+                      changePageNumber(pageNumber + 1);
+                    }}
+                    className='btn no-bg color-primary'
+                  >
+                    Show more
+                    <FontAwesomeIcon icon={faPlus} />
                   </button>
                 )}
               </div>
