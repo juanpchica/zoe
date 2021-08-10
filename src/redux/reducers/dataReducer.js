@@ -1,4 +1,4 @@
-import { LOADING_AGENTS, SET_AGENTS, DELETE_AGENT } from "../types";
+import { LOADING_AGENTS, SET_AGENTS, DELETE_AGENT, SET_INCOME } from "../types";
 
 const initialState = {
   income: null,
@@ -9,6 +9,13 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case SET_INCOME:
+      return {
+        ...state,
+        agents: [],
+        agentsHidden: [],
+        income: action.payload,
+      };
     case SET_AGENTS:
       return {
         ...state,
