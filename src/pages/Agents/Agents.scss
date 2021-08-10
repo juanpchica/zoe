@@ -8,37 +8,7 @@
   justify-content: center;
   align-items: center;
 }
-.agent-item {
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  box-shadow: 0px 5px 13px #d8cdcd;
-  width: calc(100% - 30px);
-  margin-bottom: 20px;
-  border-radius: 12px;
-  padding: 10px 15px;
-  min-height: 100px;
-  .agent-avatar img {
-    width: 100%;
-    border-radius: 50%;
-    max-width: 90px;
-    margin: 0 auto;
-  }
-  .agent-info {
-    padding-left: 15px;
-    .agent-name {
-      margin: 0 0 8px 0;
-      font-size: 1.5em;
-    }
-    p {
-      margin: 0 0 8px 0;
-    }
-    .agent-income {
-      font-weight: 100;
-      font-size: 0.9em;
-    }
-  }
-}
+
 .action-buttons {
   display: flex;
   justify-content: space-between;

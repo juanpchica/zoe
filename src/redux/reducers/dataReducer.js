@@ -58,6 +58,7 @@ const reducer = (state = initialState, action) => {
           //Order by Income desc
           return b.income - a.income;
         }
+        return 0;
       });
       return {
         ...state,
