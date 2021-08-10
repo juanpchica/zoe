@@ -16,6 +16,12 @@ body {
     outline: none !important;
   }
 }
+.btn {
+  transition: opacity 0.2s ease-in;
+}
+.btn:hover {
+  opacity: 0.8;
+}
 
 .text-center {
   text-align: center;
@@ -86,6 +92,7 @@ body {
   margin-bottom: 1rem;
   border: 1px solid transparent;
   border-radius: 0.25rem;
+  font-size: 12px;
 }
 .alert-danger {
   color: #721c24;

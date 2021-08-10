@@ -1,6 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+//Styles
+import "./Agent.scss";
+
 //Helpers
 import { formatterCurrency } from "../../util/helpers";
 
