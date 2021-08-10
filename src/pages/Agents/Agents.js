@@ -18,6 +18,7 @@ const Agents = ({
 }) => {
   const [pageNumber, setPageNumber] = useState(1);
 
+  // When click in show/Hide change page number
   const changePageNumber = (number) => {
     setPageNumber(number);
   };
@@ -31,11 +32,11 @@ const Agents = ({
     filterAgents(pageNumber);
   }, [pageNumber]);
 
-  //Validate if income does exist
+  // Validate if income does exist
   if (!income) {
     return <Redirect to='/' />;
   }
-  console.log(newAgents.length, agents.length);
+
   return (
     <div>
       <ul>

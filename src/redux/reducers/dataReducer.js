@@ -47,10 +47,10 @@ const reducer = (state = initialState, action) => {
       localStorage.setItem("agentsHidden", state.agentsHidden);
 
       //Remove from UI
-      const index = state.agents.findIndex(
+      const index = state.newAgents.findIndex(
         (agent) => agent.id === action.payload.id
       );
-      state.agents.splice(index, 1);
+      state.newAgents.splice(index, 1);
       return {
         ...state,
       };
