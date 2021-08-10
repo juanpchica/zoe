@@ -1,9 +1,16 @@
-import { LOADING_AGENTS, SET_AGENTS, DELETE_AGENT, SET_INCOME } from "../types";
+import {
+  LOADING_AGENTS,
+  SET_AGENTS,
+  DELETE_AGENT,
+  SET_INCOME,
+  FILTER_AGENTS,
+} from "../types";
 
 const initialState = {
   income: null,
   agents: [],
   agentsHidden: [],
+  newAgents: [],
   loadingAgents: false,
 };
 
@@ -14,12 +21,19 @@ const reducer = (state = initialState, action) => {
         ...state,
         agents: [],
         agentsHidden: [],
+        newAgents: [],
         income: action.payload,
       };
     case SET_AGENTS:
       return {
         ...state,
         agents: action.payload,
+      };
+    case FILTER_AGENTS:
+      const newAgents = state.agents.slice(0, action.payload * 3);
+      return {
+        ...state,
+        newAgents,
         loadingAgents: false,
       };
     case LOADING_AGENTS:

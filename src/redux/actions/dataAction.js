@@ -1,5 +1,11 @@
 import axios from "axios";
-import { SET_AGENTS, LOADING_AGENTS, SET_INCOME, DELETE_AGENT } from "../types";
+import {
+  SET_AGENTS,
+  LOADING_AGENTS,
+  SET_INCOME,
+  DELETE_AGENT,
+  FILTER_AGENTS,
+} from "../types";
 
 //Fetching Agents
 export const getAgents = (income) => {
@@ -10,6 +16,7 @@ export const getAgents = (income) => {
       .get("https://zoe-api.herokuapp.com/agents/" + income)
       .then((res) => {
         dispatch({ type: SET_AGENTS, payload: res.data.agents });
+        dispatch({ type: FILTER_AGENTS, payload: 1 });
       })
       .catch((err) => {
         dispatch({
@@ -28,4 +35,9 @@ export const setIncome = (income) => (dispatch) => {
 //Delete one agent
 export const deleteAgent = (agent) => (dispatch) => {
   dispatch({ type: DELETE_AGENT, payload: agent });
+};
+
+//Filter agents by number page
+export const filterAgents = (numberPage) => (dispatch) => {
+  dispatch({ type: FILTER_AGENTS, payload: numberPage });
 };

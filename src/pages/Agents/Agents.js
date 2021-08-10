@@ -1,72 +1,51 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Redirect, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 
 //Redux
 import { connect } from "react-redux";
-import { getAgents, deleteAgent } from "../../redux/actions/dataAction";
+import {
+  getAgents,
+  deleteAgent,
+  filterAgents,
+} from "../../redux/actions/dataAction";
 
 const Agents = ({
-  data: { income, loadingAgents, agents: agentsState },
+  data: { income, loadingAgents, agents, newAgents },
   getAgents,
+  deleteAgent,
+  filterAgents,
 }) => {
-  const [agents, setAgents] = useState([]);
-  const [agentsFilter, setAgentsFilter] = useState([]);
-  const [agentsStorage, setAgentsStorage] = useState([]);
+  const [pageNumber, setPageNumber] = useState(1);
 
-  const [actualPage, setActualPage] = useState(0);
-  const [numberPage, setNumberPage] = useState(1);
-  const amount = 0;
-
-  const filterAgents = (agentsData) => {
-    let newAgents = agentsData
-      .filter(
-        (agent) =>
-          agent.income <= parseInt(amount) + 10000 &&
-          agent.income >= parseInt(amount) - 10000
-      )
-      .slice(actualPage, numberPage * 3);
-    setAgentsFilter(newAgents);
+  const changePageNumber = (number) => {
+    setPageNumber(number);
   };
 
+  // UseEffect Methods
   useEffect(() => {
     getAgents(income);
-    filterAgents(agentsState);
   }, []);
 
   useEffect(() => {
-    filterAgents(agents);
-  }, [numberPage]);
+    filterAgents(pageNumber);
+  }, [pageNumber]);
 
-  const loadMore = () => {
-    const actualPageDef = numberPage + 1;
-    setNumberPage(actualPageDef);
-  };
-
-  const loadLess = () => {
-    const actualPageDef = numberPage - 1;
-    setNumberPage(actualPageDef);
-  };
-
-  const removeAgent = (agentData) => {
-    console.log(agentData);
-    const newAgents = agentsFilter.filter((agent) => agent.id !== agentData.id);
-    setAgentsFilter(newAgents);
-
-    const agentsStorageData = [...agentsStorage, agentData];
-    localStorage.setItem("agents", JSON.stringify(agentsStorageData));
-  };
-
+  //Validate if income does exist
+  if (!income) {
+    return <Redirect to='/' />;
+  }
+  console.log(newAgents.length, agents.length);
   return (
     <div>
       <ul>
-        {agentsFilter &&
-          agentsFilter.map((agent) => {
+        {newAgents &&
+          newAgents.map((agent) => {
             return (
               <li
                 key={agent.id}
                 onClick={() => {
-                  removeAgent(agent);
+                  deleteAgent(agent);
                 }}
               >
                 {agent.name} - {agent.income}
@@ -74,8 +53,25 @@ const Agents = ({
             );
           })}
       </ul>
-      <button onClick={loadMore}>Load more...</button>
-      <button onClick={loadLess}>Load Less...</button>
+      {newAgents.length < agents.length && (
+        <button
+          onClick={() => {
+            changePageNumber(pageNumber + 1);
+          }}
+        >
+          Load more...
+        </button>
+      )}
+
+      {newAgents.length >= 3 && (
+        <button
+          onClick={() => {
+            changePageNumber(pageNumber - 1);
+          }}
+        >
+          Load Less...
+        </button>
+      )}
     </div>
   );
 };
@@ -84,6 +80,7 @@ const Agents = ({
 Agents.propTypes = {
   getAgents: PropTypes.func.isRequired,
   deleteAgent: PropTypes.func.isRequired,
+  filterAgents: PropTypes.func.isRequired,
   data: PropTypes.object.isRequired,
 };
 
@@ -98,6 +95,7 @@ const mapPropsToState = (state) => {
 const mapPropsToActions = {
   getAgents,
   deleteAgent,
+  filterAgents,
 };
 
 export default connect(mapPropsToState, mapPropsToActions)(Agents);
